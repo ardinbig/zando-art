@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1013565341373",
+    "firebase_url": "https://zando-art.firebaseio.com",
+    "project_id": "zando-art",
+    "storage_bucket": "zando-art.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013565341373:android:13bcd93c01bab6fd",
+        "android_client_info": {
+          "package_name": "com.ardinbig.zandoart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013565341373-o10nl3821qlfa77rnkdnljdgd3n76llk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-0DQ_Jz7inbnwqeMCbQQ8DnqpCIbz4hg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
