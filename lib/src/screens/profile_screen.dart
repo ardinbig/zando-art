@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui' as ui;
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -48,211 +49,68 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Profile"),
-        backgroundColor: ZandoMainColor,
-      ),
-      body: ListView(
-        children: <Widget>[
-          _buildProfileHeader(),
-          _buildTopNavBar(_controller),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildTopNavBar(TabController controller) {
-    return TabBar(
-      labelColor: ZandoMainColor,
-      indicatorColor: ZandoSecondaryColor,
-      controller: controller,
-      tabs: <Widget>[
-        Tab(
-          text: "Postes",
-        ),
-        Tab(
-          text: "Ventes",
-        ),
-      ],
-    );
-  }
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
+    final String imgUrl = 'http://192.168.43.30:80/zando_art_web/uploads/profile/user.jpeg';
 
-  /*
-  Future getImageGallery() async {
-    var imageFile = await ImagePicker.pickImage(
-      source: ImageSource.gallery
-    );
-
-    final tmpDir = await getTemporaryDirectory();
-    final path = tmpDir.path;
-
-    int rand = Random().nextInt(1000000000);
-
-    Img.Image image = Img.decodeImage(imageFile.readAsBytesSync());
-    Img.Image thumb = Img.copyResize(image, 500);
-
-    var compressImg = File("$path/img_$rand.jpg").writeAsStringSync(thumb);
-   // ..writeAsStringSync(Img.encodeJpg(thumb, quality: 85));
-
-    var compressImg = File("$path/img_$rand.jpg").writeAsStringSync(Img.encodeJpg(thumb, quality: 85, ));
-
-    setState(() {
-      publicAvatar = compressImg;
-    });
-
-    if( imageFile == null) {
-      CircularProgressIndicator();
-    } else {
-      upload(imageFile);
-    }
-  }
-
-  Future getImageCamera() async {
-    var imageFile = await ImagePicker.pickImage(
-        source: ImageSource.camera
-    );
-
-    final tmpDir = await getTemporaryDirectory();
-    final path = tmpDir.path;
-
-    int rand = Random().nextInt(1000000000);
-
-    img.Image image = img.decodeImage(imageFile.readAsBytesSync());
-    img.Image thumb = img.copyResize(image, 500);
-
-    var compressImg = File("$path/img_$rand.jpg")
-      ..writeAsStringSync(img.encodeJpg(thumb, quality: 85));
-
-    setState(() {
-      publicAvatar = compressImg;
-    });
-
-    if( imageFile == null) {
-      CircularProgressIndicator();
-    } else {
-      upload(imageFile);
-    }
-  }
-
-  */
-
-  Future upload(File imageFile) async {
-    var stream = http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    var length = await imageFile.length();
-    var uri = Uri.parse("http://192.168.43.30:80/zando_art_web/artist_exit.php");
-
-    var request = http.MultipartRequest("POST", uri);
-
-    var multipartFile = http.MultipartFile("avatar", stream, length, filename: basename(imageFile.path));
-
-    request.files.add(multipartFile);
-
-    var response = await request.send();
-
-    if(response.statusCode == 200) {
-      print("Image uploaded");
-    } else {
-      print("Upload failed");
-    }
-
-    response.stream.transform(utf8.decoder).listen((value) {
-      print(value);
-    });
-  }
-
-  Widget _buildProfileHeader() => Container(
-    padding: EdgeInsets.all(14.0),
-    color: ZandoMainColor,
-    height: 190.0,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-           // _buildFloatingActionButton(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+    return new Stack(children: <Widget>[
+      new Container(color: ZandoBGColor,),
+      new Image.network(imgUrl, fit: BoxFit.fill,),
+      new BackdropFilter(
+          filter: ui.ImageFilter.blur(
+            sigmaX: 6.0,
+            sigmaY: 6.0,
+          ),
+          child: new Container(
+            decoration: BoxDecoration(
+              color:  ZandoSecondaryColor.withOpacity(0.9),
+            ),)),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Profile"),
+            centerTitle: false,
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+          ),
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: Column(
               children: <Widget>[
-                Expanded(
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/user.jpeg"),
-                  ),
-                ),
+                SizedBox(height: _height/12,),
+                CircleAvatar(radius:_width<_height? _width/4:_height/4,backgroundImage: NetworkImage(imgUrl),),
+                SizedBox(height: _height/25.0,),
+                Text('${publicUser.firstname} ${publicUser.lastname}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: _width/15, color: Colors.white),),
+                Padding(padding: EdgeInsets.only(top: _height/30, left: _width/8, right: _width/8),
+                  child:new Text('${publicUser.email} ',
+                    style: new TextStyle(fontWeight: FontWeight.normal, fontSize: _width/25,color: Colors.white),textAlign: TextAlign.center,) ,),
+                Divider(height: _height/30,color: Colors.white,),
                 Row(
                   children: <Widget>[
-                    FlatButton(
-                        color: ZandoMainColor,
-                        child: Icon(Icons.image, color: ZandoWhiteColor,),
-                        //onPressed: getImageGallery,
-                    ),
-                    FlatButton(
-                        color: ZandoMainColor,
-                        child: Icon(Icons.camera_alt, color: ZandoWhiteColor,),
-                        //onPressed: getImageCamera,
-                    ),
-                  ],
-                ),
+                    rowCell(4, 'Posts'),
+                    rowCell(20, 'Vues'),
+                  ],),
+                Divider(height: _height/30,color: Colors.white),
+                Padding(padding: new EdgeInsets.only(left: _width/8, right: _width/8), child: new FlatButton(onPressed: (){},
+                  child: new Container(child: new Row(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
+                    Icon(Icons.person),
+                    SizedBox(width: _width/30,),
+                    Text('SUIVRE')
+                  ],)),color: Colors.blue[50],),),
               ],
             ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            FlatButton(
-              child: Text("Promouvoir votre compte", style: TextStyle(color: ZandoWhiteColor, fontStyle: FontStyle.italic),),
-              onPressed: () {
-                //Navigator.pushReplacement(context,
-                  //  MaterialPageRoute(builder: (context) => UpgradeScreen())
-                //);
-              },
-            ),
-            _buildFloatingActionButton(),
-          ],
-        ),
-      ],
-    ),
-  );
+          )
+      )
+    ],);
+  }
 
-  Stack _buildStack() => Stack(
-    children: <Widget>[
-      Container(
-        height: 250.0,
-        color: ZandoMainColor,
 
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Hero(
-                        tag: "profile_picture",
-                        child: Image.asset(
-                          "assets/images/user.jpeg",
-                          alignment: Alignment.topLeft,
-                          height: 120.0,
-                        ),
-                      ),
-                      Expanded(
-                        // child: _buildProfile(),
-                      ),
-                    ],
-                  ),
-                  //_buildTabs(),
 
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
+  Widget rowCell(int count, String type) => new Expanded(child: new Column(children: <Widget>[
+    new Text('$count',style: new TextStyle(color: Colors.white),),
+    new Text(type,style: new TextStyle(color: Colors.white, fontWeight: FontWeight.normal))
+  ],));
+
 
   TabBarView _buildTabs() => TabBarView(
     controller: _controller,
