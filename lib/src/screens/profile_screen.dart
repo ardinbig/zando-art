@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:async/async.dart';
@@ -35,6 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   @override
   void initState() {
     _controller = TabController(length: 2, vsync: this);
+    _buildTabs();
     super.initState();
   }
 
@@ -51,9 +53,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         title: Text("Profile"),
         backgroundColor: ZandoMainColor,
       ),
-      body: Row(
+      body: ListView(
         children: <Widget>[
-          _buildStack(),
+          _buildProfileHeader(),
+          _buildTopNavBar(_controller),
         ],
       ),
     );
@@ -61,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   Widget _buildTopNavBar(TabController controller) {
     return TabBar(
-      labelColor: Colors.white,
+      labelColor: ZandoMainColor,
       indicatorColor: ZandoSecondaryColor,
       controller: controller,
       tabs: <Widget>[
@@ -168,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            _buildProfile(),
+           // _buildFloatingActionButton(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
