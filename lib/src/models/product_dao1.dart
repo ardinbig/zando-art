@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:convert';
 
@@ -8,8 +7,8 @@ import 'package:http/http.dart' as http;
 
 import 'product.dart';
 
-Iterable i;
-String myResponseBody;
+Iterable? i;
+String? myResponseBody;
 
 class ProductDAO extends StatefulWidget {
   @override
@@ -17,7 +16,6 @@ class ProductDAO extends StatefulWidget {
 }
 
 class _ProductDAOState extends State<ProductDAO> {
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Product>>(
@@ -26,7 +24,7 @@ class _ProductDAOState extends State<ProductDAO> {
         if (snapshot.hasError) print(snapshot.error);
 
         return snapshot.hasData
-            ? Products(list: snapshot.data)
+            ? Products(list: snapshot.data!)
             : Center(child: CircularProgressIndicator());
       },
     );
@@ -38,31 +36,30 @@ class _ProductDAOState extends State<ProductDAO> {
   }
 
   static Future<List<Product>> fetchProducts() async {
-    final response =
-    await http.get("http://192.168.43.30:80/zando_art_web/get_products.php");
+    var response; // =
+    //await http.get("http://192.168.43.30:80/zando_art_web/get_products.php");
     myResponseBody = response.body;
     // Use the compute function to run parseProducts in a separate isolate
-    return found.compute(parseProducts, response.body);
+    return response; //found.compute(parseProducts, response.body);
   }
 
   // A function that converts a response body into a List<Photo>
   static List<Product> parseProducts(String responseBody) {
-    final parsed = json.decode(myResponseBody).cast<Map<String, dynamic>>();
+    final parsed = json.decode(myResponseBody!).cast<Map<String, dynamic>>();
 
     return parsed.map<Product>((json) => Product.fromJson(json)).toList();
   }
 
-  static List<Product> loadProducts(Category category) {
-    var allProducts = parseProducts(myResponseBody);
+  static List<Product> loadProducts(Categories category) {
+    var allProducts = parseProducts(myResponseBody!);
 
-    if (category == Category.Accueil) {
+    if (category == Categories.Accueil) {
       return allProducts;
     } else {
       return allProducts.where((Product p) => p.category == category).toList();
     }
   }
 }
-
 
 /*
 
@@ -104,21 +101,19 @@ class ProductDA extends StatefulWidget {
  */
 
 class Products extends StatelessWidget {
+  final List<Product>? list;
 
-  final List<Product> list;
-
-  Products({Key key, this.list}) : super(key: key);
+  Products({Key? key, this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: list.length,
+      itemCount: list!.length,
       itemBuilder: (context, index) {
-//        return List();
+        return Text("");
       },
     );
   }
-
 
   /*
   final List<Product> list;
@@ -158,7 +153,4 @@ class Products extends StatelessWidget {
       list: prods,
     );
      */
-  }
-
-
-
+}

@@ -1,17 +1,14 @@
 import 'dart:ui';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
-import '../supplementals/colors.dart';
+import 'package:zando_art/src/utils/colors.dart';
 
 class SignInScreen extends StatefulWidget {
-
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-
   final _firstNameController = TextEditingController();
   final _secondNameController = TextEditingController();
   final _emailController = new TextEditingController();
@@ -27,7 +24,6 @@ class _SignInScreenState extends State<SignInScreen> {
         backgroundColor: ZandoMainColor,
         title: Text('S\'inscrire'),
       ),
-
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.all(16.0),
@@ -35,7 +31,9 @@ class _SignInScreenState extends State<SignInScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Zando Art', style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold)),
+                Text('Zando Art',
+                    style:
+                        TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold)),
               ],
             ),
             SizedBox(height: 12.0),
@@ -47,7 +45,8 @@ class _SignInScreenState extends State<SignInScreen> {
             SizedBox(height: 9.0),
             _buildTextField('Mot de passe', _firstPasswordController, true),
             SizedBox(height: 9.0),
-            _buildTextField('Vérifaction du mot de passe', _secondPasswordController, true),
+            _buildTextField(
+                'Vérifaction du mot de passe', _secondPasswordController, true),
             SizedBox(height: 9.0),
             _buildConditions(),
             _buildButtonBar(),
@@ -76,15 +75,15 @@ class _SignInScreenState extends State<SignInScreen> {
           onPressed: () {
             _addUser();
             _clearField();
-            Fluttertoast.showToast(
-              msg: "Inscription réussie !",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIos: 1,
-              backgroundColor: ZandoSecondaryColor,
-              textColor: Colors.black,
-              fontSize: 20.0
-            );
+            // Fluttertoast.showToast(
+            //   msg: "Inscription réussie !",
+            //   toastLength: Toast.LENGTH_SHORT,
+            //   gravity: ToastGravity.CENTER,
+            //   timeInSecForIos: 1,
+            //   backgroundColor: ZandoSecondaryColor,
+            //   textColor: Colors.black,
+            //   fontSize: 20.0
+            // );
           },
         ),
       ],
@@ -94,25 +93,18 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget _buildConditions() {
     return FlatButton(
       child: Text('Conditions d\'utilisation'),
-      onPressed: () {
-
-      },
+      onPressed: () {},
     );
   }
 
   Widget _buildTextField(
-      String label,
-      TextEditingController controller,
-      bool isPassword
-      ) {
+      String label, TextEditingController controller, bool isPassword) {
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: ZandoMainColor),
       child: TextField(
         controller: controller,
-        decoration: InputDecoration(
-            labelText: label,
-            border: OutlineInputBorder()
-        ),
+        decoration:
+            InputDecoration(labelText: label, border: OutlineInputBorder()),
         obscureText: isPassword,
         cursorColor: ZandoMainColor,
       ),
@@ -130,15 +122,15 @@ class _SignInScreenState extends State<SignInScreen> {
   _addUser() {
     var url = "http://192.168.43.30:80/zando_art_web/add_user.php";
 
-    http.post(url, body: {
-      "firstname": _firstNameController.text,
-      "lastname": _secondNameController.text,
+    // http.post(url, body: {
+    //   "firstname": _firstNameController.text,
+    //   "lastname": _secondNameController.text,
 
-      /// TODO: Testing if passwords are equals
-      // "password" : _firstPasswordController.text,
+    //   /// TODO: Testing if passwords are equals
+    //   // "password" : _firstPasswordController.text,
 
-      "password" : _firstPasswordController.text,
-      "email" : _emailController.text,
-    });
+    //   "password" : _firstPasswordController.text,
+    //   "email" : _emailController.text,
+    // });
   }
 }

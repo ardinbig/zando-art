@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/app/public.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
-import '../supplementals/colors.dart';
+import 'package:zando_art/src/utils/colors.dart';
 
 class UpgradeScreen extends StatefulWidget {
   @override
@@ -10,7 +7,6 @@ class UpgradeScreen extends StatefulWidget {
 }
 
 class _UpgradeScreenState extends State<UpgradeScreen> {
-
   TextEditingController email = TextEditingController();
   TextEditingController shopName = TextEditingController();
   TextEditingController description = TextEditingController();
@@ -22,7 +18,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
 
   @override
   void initState() {
-    email = TextEditingController(text: publicEmail);
+    //email = TextEditingController(text: publicEmail);
     super.initState();
   }
 
@@ -31,7 +27,6 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Promouvoir votre compte"),
-        backgroundColor: ZandoMainColor,
       ),
       body: ListView(
         children: <Widget>[
@@ -39,17 +34,23 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
             padding: EdgeInsets.all(14.0),
             child: Column(
               children: <Widget>[
-                _buildTextField("Email", email, false, false, TextInputType.text),
+                _buildTextField(
+                    "Email", email, false, false, TextInputType.text),
                 SizedBox(height: 9.0),
-                _buildTextField("Nom de l'atelier", shopName, false, true, TextInputType.text),
+                _buildTextField("Nom de l'atelier", shopName, false, true,
+                    TextInputType.text),
                 SizedBox(height: 9.0),
-                _buildTextField("Categorie", category, false, true, TextInputType.text),
+                _buildTextField(
+                    "Categorie", category, false, true, TextInputType.text),
                 SizedBox(height: 9.0),
-                _buildTextField("Phone", phone, false, true, TextInputType.phone),
+                _buildTextField(
+                    "Phone", phone, false, true, TextInputType.phone),
                 SizedBox(height: 9.0),
-                _buildTextField("Adresse complète", address, false, true, TextInputType.text),
+                _buildTextField("Adresse complète", address, false, true,
+                    TextInputType.text),
                 SizedBox(height: 9.0),
-                _buildTextField("Description", description, false, true, TextInputType.text),
+                _buildTextField("Description", description, false, true,
+                    TextInputType.text),
                 SizedBox(height: 9.0),
                 _buildButtonBar(),
               ],
@@ -60,23 +61,16 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
     );
   }
 
-  Widget _buildTextField(
-      String label,
-      TextEditingController controller,
-      bool isPassword,
-      bool enable,
-      TextInputType type
-      ) {
+  Widget _buildTextField(String label, TextEditingController controller,
+      bool isPassword, bool enable, TextInputType type) {
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: ZandoMainColor),
       child: TextField(
         keyboardType: type,
         enabled: enable,
         controller: controller,
-        decoration: InputDecoration(
-            labelText: label,
-            border: OutlineInputBorder()
-        ),
+        decoration:
+            InputDecoration(labelText: label, border: OutlineInputBorder()),
         obscureText: isPassword,
         cursorColor: ZandoMainColor,
       ),
@@ -111,15 +105,15 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
           onPressed: () {
             _upgradeAccount();
             _clearField();
-            Fluttertoast.showToast(
-                msg: "Création de l'atelier réussi !",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIos: 1,
-                backgroundColor: ZandoSecondaryColor,
-                textColor: Colors.black,
-                fontSize: 20.0
-            );
+            // Fluttertoast.showToast(
+            //     msg: "Création de l'atelier réussi !",
+            //     toastLength: Toast.LENGTH_SHORT,
+            //     gravity: ToastGravity.CENTER,
+            //     timeInSecForIos: 1,
+            //     backgroundColor: ZandoSecondaryColor,
+            //     textColor: Colors.black,
+            //     fontSize: 20.0
+            // );
           },
         ),
       ],
@@ -129,13 +123,13 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
   _upgradeAccount() {
     var url = "http://192.168.43.30:80/zando_art_web/upgrade_account.php";
 
-    http.post(url, body: {
-      "email_artist": email.text,
-      "description": description.text,
-      "shop_name": shopName.text,
-      "phone": phone.text,
-      "category" : category.text,
-      "full_address" : address.text,
-    });
+    // http.post(url, body: {
+    //   "email_artist": email.text,
+    //   "description": description.text,
+    //   "shop_name": shopName.text,
+    //   "phone": phone.text,
+    //   "category" : category.text,
+    //   "full_address" : address.text,
+    // });
   }
 }

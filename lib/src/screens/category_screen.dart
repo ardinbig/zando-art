@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../src/supplementals/colors.dart';
+import 'package:zando_art/src/utils/colors.dart';
 import '../screens/tabs/dessin_tab.dart' as dessin;
 import '../screens/tabs/painture_tab.dart' as painture;
 
@@ -8,9 +8,9 @@ class CategoryScreen extends StatefulWidget {
   _CategoryScreenState createState() => _CategoryScreenState();
 }
 
-class _CategoryScreenState extends State<CategoryScreen> with SingleTickerProviderStateMixin {
-
-  TabController _controller;
+class _CategoryScreenState extends State<CategoryScreen>
+    with SingleTickerProviderStateMixin {
+  TabController? _controller;
 
   @override
   void initState() {
@@ -20,7 +20,7 @@ class _CategoryScreenState extends State<CategoryScreen> with SingleTickerProvid
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -53,21 +53,20 @@ class _CategoryScreenState extends State<CategoryScreen> with SingleTickerProvid
   }
 
   TabBarView _buildTabs() => TabBarView(
-    controller: _controller,
-    children: <Widget>[
-      dessin.DessinTab(),
-      painture.PaintureTab(),
-    ],
-  );
+        controller: _controller,
+        children: <Widget>[
+          dessin.DessinTab(),
+          painture.PaintureTab(),
+        ],
+      );
 }
 
 class CategoryCard extends StatelessWidget {
-
   CategoryCard({this.icon, this.title, this.colorIcon});
 
-  final IconData icon;
-  final String title;
-  final Color colorIcon;
+  final IconData? icon;
+  final String? title;
+  final Color? colorIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +82,7 @@ class CategoryCard extends StatelessWidget {
                 size: 50.0,
               ),
               Text(
-                title,
+                title!,
                 style: TextStyle(fontSize: 20.0),
               )
             ],
@@ -93,4 +92,3 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
-

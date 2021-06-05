@@ -1,13 +1,13 @@
-import 'dart:ui';
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:provider/provider.dart';
 import 'package:zando_art/src/models/app_state.dart';
 import 'package:zando_art/src/models/product.dart';
-import 'package:zando_art/src/supplementals/colors.dart';
+import 'package:zando_art/src/utils/colors.dart';
 
 const _leftColumnWidth = 60.0;
 
@@ -17,18 +17,18 @@ class ShoppingCartTab extends StatefulWidget {
 }
 
 class _ShoppingCartTabState extends State<ShoppingCartTab> {
-
   List<Widget> _createShoppingCartRows(AppState model) {
     return model.productsInCart.keys
         .map(
           (id) => ShoppingCartRow(
-        product: model.getProductById(id),
-        quantity: model.productsInCart[id],
-        onPressed: () {
-          model.removeItemFromCart(id);
-        },
-      ),
-    ).toList();
+            product: model.getProductById(id),
+            quantity: model.productsInCart[id],
+            onPressed: () {
+              model.removeItemFromCart(id);
+            },
+          ),
+        )
+        .toList();
   }
 
   Widget build(BuildContext context) {
@@ -38,8 +38,8 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
       backgroundColor: ZandoBGColor,
       body: SafeArea(
         child: Container(
-          child: ScopedModelDescendant<AppState>(
-            builder: (context, child, model) {
+          child: Consumer<AppState>(
+            builder: (context, model, child) {
               return Stack(
                 children: [
                   ListView(
@@ -50,11 +50,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                             padding: EdgeInsets.all(12.0),
                             child: Row(
                               children: <Widget>[
-                                Text(
-                                  'Pannier',
-                                  style: localTheme.textTheme.subhead
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
+                                Text('Pannier'),
                                 Text('  ${model.totalCartQuantity} Pièces'),
                               ],
                             ),
@@ -76,13 +72,17 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                       children: <Widget>[
                         RaisedButton(
                           shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(7.0)),
                           ),
                           color: ZandoMainColor,
                           splashColor: ZandoBGColor,
                           child: const Padding(
                             padding: EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text('Vider le pannier', style: TextStyle(color: Colors.white),),
+                            child: Text(
+                              'Vider le pannier',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                           onPressed: () {
                             model.clearCart();
@@ -90,13 +90,17 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                         ),
                         RaisedButton(
                           shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(7.0)),
                           ),
                           color: ZandoSecondaryColor,
                           splashColor: ZandoBGColor,
                           child: const Padding(
                             padding: EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text('Acheter', style: TextStyle(color: Colors.white),),
+                            child: Text(
+                              'Acheter',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                           onPressed: () {
                             // Fluttertoast.showToast(msg: '${model.totalCost}');
@@ -115,8 +119,6 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
     );
   }
 
-
-
   /*
   @override
   Widget build(BuildContext context) {
@@ -128,40 +130,41 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
 
   // Retourne les données de la base des données via une page php
   Future<List> getData() async {
-    final response = await http.get("http://192.168.43.30:80/zando_art_web/get_data.php");
+    var response; // = await http.get("http://192.168.43.30:80/zando_art_web/get_data.php");
     // final response = await http.get("http://localhost/getData.php");
     return json.decode(response.body);
   }
 
   FutureBuilder<List> _zando_home() => FutureBuilder(
-    future: getData(),
-    builder: (context, snapshot) {
-      if (snapshot.hasError) print(snapshot.error);
-      return snapshot.hasData ? ItemList(list: snapshot.data) : Center(
-          child: CircularProgressIndicator(backgroundColor: Colors.brown, )
+        future: getData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) print(snapshot.error);
+          return snapshot.hasData
+              ? ItemList(list: snapshot.data)
+              : Center(
+                  child: CircularProgressIndicator(
+                  backgroundColor: Colors.brown,
+                ));
+        },
       );
-    },
-  );
 }
 
-
 class ItemList extends StatelessWidget {
-
-  final List list;
+  final List? list;
   const ItemList({this.list});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: list == null ? 0 : list.length,
+      itemCount: list == null ? 0 : list!.length,
       itemBuilder: (context, i) {
         return Container(
           padding: EdgeInsets.all(6.0),
           child: Card(
             child: ListTile(
-              title: Text(list[i]['firstname']),
+              title: Text(list![i]['firstname']),
               leading: Icon(Icons.widgets),
-              subtitle: Text("Email : ${list[i]["email"]}"),
+              subtitle: Text("Email : ${list![i]["email"]}"),
             ),
           ),
         );
@@ -173,12 +176,10 @@ class ItemList extends StatelessWidget {
 class ShoppingCartSummary extends StatelessWidget {
   ShoppingCartSummary({this.model});
 
-  final AppState model;
+  final AppState? model;
 
   @override
   Widget build(BuildContext context) {
-    final smallAmountStyle =
-    Theme.of(context).textTheme.body1.copyWith(color: ZandoBGColor);
     final largeAmountStyle = Theme.of(context).textTheme.display1;
     final formatter = NumberFormat.simpleCurrency(
         decimalDigits: 2, locale: Localizations.localeOf(context).toString());
@@ -198,7 +199,7 @@ class ShoppingCartSummary extends StatelessWidget {
                       child: Text('TOTAL'),
                     ),
                     Text(
-                      formatter.format(model.totalCost),
+                      formatter.format(model!.totalCost),
                       style: largeAmountStyle,
                     ),
                   ],
@@ -210,8 +211,7 @@ class ShoppingCartSummary extends StatelessWidget {
                       child: Text('Sous total:'),
                     ),
                     Text(
-                      formatter.format(model.subtotalCost),
-                      style: smallAmountStyle,
+                      formatter.format(model!.subtotalCost),
                     ),
                   ],
                 ),
@@ -221,10 +221,7 @@ class ShoppingCartSummary extends StatelessWidget {
                     const Expanded(
                       child: Text('Autres Frais:'),
                     ),
-                    Text(
-                      formatter.format(model.shippingCost),
-                      style: smallAmountStyle,
-                    ),
+                    Text(formatter.format(model!.shippingCost)),
                   ],
                 ),
                 const SizedBox(height: 4.0),
@@ -234,8 +231,7 @@ class ShoppingCartSummary extends StatelessWidget {
                       child: Text('TVA:'),
                     ),
                     Text(
-                      formatter.format(model.tax),
-                      style: smallAmountStyle,
+                      formatter.format(model!.tax),
                     ),
                   ],
                 ),
@@ -252,9 +248,9 @@ class ShoppingCartRow extends StatelessWidget {
   ShoppingCartRow(
       {@required this.product, @required this.quantity, this.onPressed});
 
-  final Product product;
-  final int quantity;
-  final VoidCallback onPressed;
+  final Product? product;
+  final int? quantity;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -265,7 +261,7 @@ class ShoppingCartRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Row(
-        key: ValueKey(product.id),
+        key: ValueKey(product!.id),
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
@@ -284,8 +280,8 @@ class ShoppingCartRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset(
-                        product.assetName,
-                        package: product.assetPackage,
+                        product!.assetName,
+                        package: product!.assetPackage,
                         fit: BoxFit.cover,
                         width: 75.0,
                         height: 75.0,
@@ -300,14 +296,10 @@ class ShoppingCartRow extends StatelessWidget {
                                 Expanded(
                                   child: Text('Quantité: $quantity'),
                                 ),
-                                Text('x ${formatter.format(product.price)}'),
+                                Text('x ${formatter.format(product!.price)}'),
                               ],
                             ),
-                            Text(
-                              product.name,
-                              style: localTheme.textTheme.subhead
-                                  .copyWith(fontWeight: FontWeight.w600),
-                            ),
+                            Text(product!.name!),
                           ],
                         ),
                       ),
@@ -327,6 +319,3 @@ class ShoppingCartRow extends StatelessWidget {
     );
   }
 }
-
-
-

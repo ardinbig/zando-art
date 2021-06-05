@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
@@ -10,7 +9,7 @@ class TwoProductCardColumn extends StatelessWidget {
     this.top,
   }) : assert(bottom != null);
 
-  final Product bottom, top;
+  final Product? bottom, top;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class TwoProductCardColumn extends StatelessWidget {
             child: top != null
                 ? ProductCard(
                     imageAspectRatio: imageAspectRatio,
-                    product: top,
+                    product: top!,
                   )
                 : SizedBox(
                     height: heightOfCards > 0 ? heightOfCards : spacerHeight,
@@ -43,7 +42,7 @@ class TwoProductCardColumn extends StatelessWidget {
             padding: EdgeInsetsDirectional.only(end: 28.0),
             child: ProductCard(
               imageAspectRatio: imageAspectRatio,
-              product: bottom,
+              product: bottom!,
             ),
           ),
         ],
@@ -55,7 +54,7 @@ class TwoProductCardColumn extends StatelessWidget {
 class OneProductCardColumn extends StatelessWidget {
   OneProductCardColumn({this.product});
 
-  final Product product;
+  final Product? product;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +65,7 @@ class OneProductCardColumn extends StatelessWidget {
           height: 40.0,
         ),
         ProductCard(
-          product: product,
+          product: product!,
         ),
       ],
     );

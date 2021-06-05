@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/models/user.dart';
-import 'package:zando_art/src/supplementals/colors.dart';
+
+import '/src/models/user.dart';
+import '/src/utils/colors.dart';
 
 class PostScreen extends StatefulWidget {
 
-  final User user;
+  final User? user;
 
   PostScreen({this.user});
 

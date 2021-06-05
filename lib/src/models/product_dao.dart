@@ -2,8 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' as found;
-import 'package:http/http.dart' as http;
+
 import 'product.dart';
 
 List<Product> myProducts = [];
@@ -11,8 +10,6 @@ List<Product> myProducts = [];
 class ProductDAO extends StatefulWidget {
   @override
   ProductDAOState createState() => ProductDAOState();
-
-
 }
 
 class ProductDAOState extends State<ProductDAO> {
@@ -32,10 +29,10 @@ class ProductDAOState extends State<ProductDAO> {
     super.dispose();
   }
 
-  static List<Product> loadProducts(Category category) {
+  static List<Product> loadProducts(Categories category) {
     final allProducts = myProducts;
 
-    if (category == Category.Accueil) {
+    if (category == Categories.Accueil) {
       return allProducts;
     } else {
       return allProducts.where((Product p) => p.category == category).toList();
@@ -43,7 +40,7 @@ class ProductDAOState extends State<ProductDAO> {
   }
 
   Future<List<Product>> fetchProducts() async {
-    var response = await http.get("http://192.168.43.30:80/zando_art_web/get_products.php");
+    var response; //= await http.get("http://192.168.43.30:80/zando_art_web/get_products.php");
     List<Map> list = json.decode(response.body);
 
     for (int i = 0; i < list.length; i++) {
@@ -109,5 +106,3 @@ class ProductDAOState extends State<ProductDAO> {
     return parsed.map<Product>((json) => Product.fromJson(json)).toList();
   }
 }
-
-

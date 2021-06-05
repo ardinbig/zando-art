@@ -1,6 +1,4 @@
-
-
-import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter/foundation.dart';
 
 import 'product.dart';
 import 'product_dao.dart';
@@ -8,12 +6,12 @@ import 'product_dao.dart';
 double _salesTaxRate = 0.06;
 double _shippingCostPerItem = 7.0;
 
-class AppState extends Model {
+class AppState extends ChangeNotifier {
   // All the available products.
-  List<Product> _availableProducts;
+  List<Product>? _availableProducts;
 
   // The currently selected category of products.
-  Category _selectedCategory = Category.Accueil;
+  Categories _selectedCategory = Categories.Accueil;
 
   // The IDs and quantities of products currently in the cart.
   Map<int, int> _productsInCart = {};
@@ -23,17 +21,17 @@ class AppState extends Model {
   // Total number of items in the cart.
   int get totalCartQuantity => _productsInCart.values.fold(0, (v, e) => v + e);
 
-  Category get selectedCategory => _selectedCategory;
+  Categories get selectedCategory => _selectedCategory;
 
   // Totaled prices of the items in the cart.
   double get subtotalCost => _productsInCart.keys
-      .map((id) => _availableProducts[id].price * _productsInCart[id])
+      .map((id) => _availableProducts![id].price! * _productsInCart[id]!)
       .fold(0.0, (sum, e) => sum + e);
 
   // Total shipping cost for the items in the cart.
   double get shippingCost =>
       _shippingCostPerItem *
-          _productsInCart.values.fold(0.0, (sum, e) => sum + e);
+      _productsInCart.values.fold(0.0, (sum, e) => sum + e);
 
   // Sales tax for the items in the cart
   double get tax => subtotalCost * _salesTaxRate;
@@ -43,12 +41,12 @@ class AppState extends Model {
 
   // Returns a copy of the list of available products, filtered by category.
   List<Product> getProducts() {
-    if (_availableProducts == null) return List<Product>();
+    if (_availableProducts == null) return Never;
 
-    if (_selectedCategory == Category.Accueil) {
-      return List.from(_availableProducts);
+    if (_selectedCategory == Categories.Accueil) {
+      return List.from(_availableProducts!);
     } else {
-      return _availableProducts
+      return _availableProducts!
           .where((p) => p.category == _selectedCategory)
           .toList();
     }
@@ -59,7 +57,7 @@ class AppState extends Model {
     if (!_productsInCart.containsKey(productId)) {
       _productsInCart[productId] = 1;
     } else {
-      _productsInCart[productId]++;
+      //_productsInCart[productId]! ++;
     }
     notifyListeners();
   }
@@ -70,7 +68,7 @@ class AppState extends Model {
       if (_productsInCart[productId] == 1) {
         _productsInCart.remove(productId);
       } else {
-        _productsInCart[productId]--;
+        //_productsInCart[productId]--;
       }
     }
     notifyListeners();
@@ -78,7 +76,7 @@ class AppState extends Model {
 
   // Returns the Product instance matching the provided id.
   Product getProductById(int id) {
-    return _availableProducts.firstWhere((p) => p.id == id);
+    return _availableProducts!.firstWhere((p) => p.id == id);
   }
 
   // Removes everything from the cart.
@@ -89,11 +87,11 @@ class AppState extends Model {
 
   // Loads the list of available products from the repo.
   void loadProducts() {
-    _availableProducts = ProductDAOState.loadProducts(Category.Accueil);
+    _availableProducts = ProductDAOState.loadProducts(Categories.Accueil);
     notifyListeners();
   }
 
-  void setCategory(Category newCategory) {
+  void setCategory(Categories newCategory) {
     _selectedCategory = newCategory;
     notifyListeners();
   }

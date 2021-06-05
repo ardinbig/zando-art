@@ -1,28 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:ui' as ui;
-import 'package:async/async.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:path/path.dart';
-import "dart:math";
-import 'package:image/image.dart' as Img;
-import 'package:zando_art/src/models/user.dart';
-// import 'package:path_provider/path_provider.dart';
 import 'package:zando_art/src/app/public.dart';
-import '../supplementals/colors.dart';
-import '../../src/screens/edit_profile_screen.dart';
-import '../../src/screens/upgrade_screen.dart';
+import 'package:zando_art/src/models/user.dart';
+import 'package:zando_art/src/utils/colors.dart';
+
 import '../../src/screens/edit_artiste_profile_screen.dart';
-import '../../src/screens/tabs/sales_tab.dart' as sales;
+import '../../src/screens/edit_profile_screen.dart';
 import '../../src/screens/tabs/posts_tab.dart' as posts;
+import '../../src/screens/tabs/sales_tab.dart' as sales;
 
 class ProfileScreen extends StatefulWidget {
-
-  final User user;
+  final User? user;
 
   ProfileScreen({this.user});
 
@@ -30,9 +21,9 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
-
-  TabController _controller;
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
+  TabController? _controller;
 
   @override
   void initState() {
@@ -43,158 +34,265 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-    final String imgUrl = 'http://192.168.43.30:80/zando_art_web/uploads/profile/user.jpeg';
+    final String imgUrl =
+        'http://192.168.43.30:80/zando_art_web/uploads/profile/user.jpeg';
 
-    return new Stack(children: <Widget>[
-      new Container(color: ZandoBGColor,),
-      new Image.network(imgUrl, fit: BoxFit.fill,),
-      new BackdropFilter(
-          filter: ui.ImageFilter.blur(
-            sigmaX: 6.0,
-            sigmaY: 6.0,
-          ),
-          child: new Container(
-            decoration: BoxDecoration(
-              color:  ZandoSecondaryColor.withOpacity(0.9),
-            ),)),
-        Scaffold(
-          appBar: AppBar(
-            title: Text("Profile"),
-            centerTitle: false,
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-          ),
-          backgroundColor: Colors.transparent,
-          body: Center(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: _height/12,),
-                CircleAvatar(radius:_width<_height? _width/4:_height/4,backgroundImage: NetworkImage(imgUrl),),
-                SizedBox(height: _height/25.0,),
-                Text('${publicUser.firstname} ${publicUser.lastname}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: _width/15, color: Colors.white),),
-                Padding(padding: EdgeInsets.only(top: _height/30, left: _width/8, right: _width/8),
-                  child:new Text('${publicUser.email} ',
-                    style: new TextStyle(fontWeight: FontWeight.normal, fontSize: _width/25,color: Colors.white),textAlign: TextAlign.center,) ,),
-                Divider(height: _height/30,color: Colors.white,),
-                Row(
-                  children: <Widget>[
-                    rowCell(4, 'Posts'),
-                    rowCell(20, 'Vues'),
-                  ],),
-                Divider(height: _height/30,color: Colors.white),
-                Padding(padding: new EdgeInsets.only(left: _width/8, right: _width/8), child: new FlatButton(onPressed: (){},
-                  child: new Container(child: new Row(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
-                    Icon(Icons.person),
-                    SizedBox(width: _width/30,),
-                    Text('SUIVRE')
-                  ],)),color: Colors.blue[50],),),
-              ],
+    return new Stack(
+      children: <Widget>[
+        new Container(
+          color: ZandoBGColor,
+        ),
+        new Image.network(
+          imgUrl,
+          fit: BoxFit.fill,
+        ),
+        new BackdropFilter(
+            filter: ui.ImageFilter.blur(
+              sigmaX: 6.0,
+              sigmaY: 6.0,
             ),
-          )
-      )
-    ],);
+            child: new Container(
+              decoration: BoxDecoration(
+                color: ZandoSecondaryColor.withOpacity(0.9),
+              ),
+            )),
+        Scaffold(
+            appBar: AppBar(
+              title: Text("Profile"),
+              centerTitle: false,
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+            ),
+            backgroundColor: Colors.transparent,
+            body: Center(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: _height / 12,
+                  ),
+                  CircleAvatar(
+                    radius: _width < _height ? _width / 4 : _height / 4,
+                    backgroundImage: NetworkImage(imgUrl),
+                  ),
+                  SizedBox(
+                    height: _height / 25.0,
+                  ),
+                  Text(
+                    '${publicUser.firstname} ${publicUser.lastname}',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: _width / 15,
+                        color: Colors.white),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: _height / 30,
+                      left: _width / 8,
+                      right: _width / 8,
+                    ),
+                    child: new Text(
+                      '${publicUser.email} ',
+                      style: new TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: _width / 25,
+                          color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Divider(
+                    height: _height / 30,
+                    color: Colors.white,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      rowCell(4, 'Posts'),
+                      rowCell(20, 'Vues'),
+                    ],
+                  ),
+                  Divider(height: _height / 30, color: Colors.white),
+                  Padding(
+                    padding: new EdgeInsets.only(
+                        left: _width / 8, right: _width / 8),
+                    child: new FlatButton(
+                      onPressed: () {},
+                      child: new Container(
+                          child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.person),
+                          SizedBox(
+                            width: _width / 30,
+                          ),
+                          Text('SUIVRE')
+                        ],
+                      )),
+                      color: Colors.blue[50],
+                    ),
+                  ),
+                ],
+              ),
+            ))
+      ],
+    );
   }
 
-
-
-  Widget rowCell(int count, String type) => new Expanded(child: new Column(children: <Widget>[
-    new Text('$count',style: new TextStyle(color: Colors.white),),
-    new Text(type,style: new TextStyle(color: Colors.white, fontWeight: FontWeight.normal))
-  ],));
-
+  Widget rowCell(int count, String type) => new Expanded(
+          child: new Column(
+        children: <Widget>[
+          new Text(
+            '$count',
+            style: new TextStyle(color: Colors.white),
+          ),
+          new Text(
+            type,
+            style: new TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.normal,
+            ),
+          )
+        ],
+      ));
 
   TabBarView _buildTabs() => TabBarView(
-    controller: _controller,
-    children: <Widget>[
-      posts.PostsTab(),
-      sales.SalesTab(),
-    ],
-  );
+        controller: _controller,
+        children: <Widget>[
+          posts.PostsTab(),
+          sales.SalesTab(),
+        ],
+      );
 
   Future<List> _getArtiste() async {
-    final response = await http.get("http://192.168.43.30:80/zando_art_web/get_artiste.php");
+    var response; // = await http.get("http://192.168.43.30:80/zando_art_web/get_artiste.php");
     return json.decode(response.body);
   }
 
   Future<List> _isArtist() async {
-    final response = await http.get("http://192.168.43.30:80/zando_art_web/artist_exit.php");
+    var response; // = await http.get("http://192.168.43.30:80/zando_art_web/artist_exit.php");
     return json.decode(response.body);
   }
 
-
   FutureBuilder<List> _buildProfile() => FutureBuilder(
-    future: _getArtiste(),
-    builder: (context, snapshot) {
-      if(snapshot.hasError) print(snapshot.error);
-      return snapshot.hasData ? Artiste(list: snapshot.data)
-      : Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        // mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Text("${publicUser.firstname} ${publicUser.lastname}", style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: Colors.white),),
-          Text("Ville : ${publicUser.city}" , style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.normal, color: Colors.white)),
-          Text("${publicUser.about}", style: TextStyle(fontSize: 20.0, color: Colors.white), ),
-        ],
+        future: _getArtiste(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) print(snapshot.error);
+          return snapshot.hasData
+              ? Artiste(list: snapshot.data!)
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      "${publicUser.firstname} ${publicUser.lastname}",
+                      style: TextStyle(
+                          fontSize: 40.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                    Text("Ville : ${publicUser.city}",
+                        style: TextStyle(
+                            fontSize: 23.0,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white)),
+                    Text(
+                      "${publicUser.about}",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                );
+        },
       );
-    },
-  );
 
   FutureBuilder<List> _buildFloatingActionButton() => FutureBuilder(
-    future: _isArtist(),
-    builder: (context, snapshot) {
-      if(snapshot.hasData) print(snapshot.error);
-      return snapshot.hasData ? FloatingActionButton(
-        child: Icon(Icons.edit),
-        mini: true,
-        backgroundColor: ZandoMainColor,
-        elevation: 10.0,
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EditProfileScreen())
-          );
-        },
-      ) : FloatingActionButton(
-        child: Icon(Icons.edit),
-        mini: true,
-        backgroundColor: ZandoMainColor,
-        elevation: 10.0,
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => EditArtisteProfileScreen())
-              /// TODO: finalise la modification du profile de l'artise.
-          );
+        future: _isArtist(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) print(snapshot.error);
+          return snapshot.hasData
+              ? FloatingActionButton(
+                  child: Icon(Icons.edit),
+                  mini: true,
+                  backgroundColor: ZandoMainColor,
+                  elevation: 10.0,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfileScreen(),
+                      ),
+                    );
+                  },
+                )
+              : FloatingActionButton(
+                  child: Icon(Icons.edit),
+                  mini: true,
+                  backgroundColor: ZandoMainColor,
+                  elevation: 10.0,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditArtisteProfileScreen(),
+                        )
+
+                        /// TODO: finalise la modification du profile de l'artise.
+                        );
+                  },
+                );
         },
       );
-    },
-  );
 }
 
 class Artiste extends StatelessWidget {
-
-  final List list;
+  final List? list;
   const Artiste({this.list});
-
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       // mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
-        Text("${list[0]['shop_name']}", style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold, color: Colors.white),),
-        Text("${list[0]['category']}", style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold, color: Colors.white)),
-        Text("${list[0]['full_address']}", style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.normal, color: Colors.white)),
-        Text("${list[0]['description']}", style: TextStyle(fontSize: 20.0, color: Colors.white), ),
+        Text(
+          "${list![0]['shop_name']}",
+          style: TextStyle(
+            fontSize: 40.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          "${list![0]['category']}",
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          "${list![0]['full_address']}",
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.normal,
+            color: Colors.white,
+          ),
+        ),
+        Text(
+          "${list![0]['description']}",
+          style: TextStyle(
+            fontSize: 20.0,
+            color: Colors.white,
+          ),
+        ),
       ],
     );
   }

@@ -6,5 +6,3 @@ const ZandoBGColor = const Color(0xFFE2F1F8);
 
 const ZandoWhiteColor = const Color(0xFFFFFBFA);
 const ZandoErrorColor = const Color(0xFFFF000E);
-
-

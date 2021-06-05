@@ -1,8 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:provider/provider.dart';
 
 import '../models/app_state.dart';
 import '../models/product.dart';
@@ -11,8 +9,8 @@ class ProductCard extends StatelessWidget {
   ProductCard({this.imageAspectRatio: 33 / 49, this.product})
       : assert(imageAspectRatio == null || imageAspectRatio > 0);
 
-  final double imageAspectRatio;
-  final Product product;
+  final double? imageAspectRatio;
+  final Product? product;
 
   static final kTextBoxHeight = 65.0;
 
@@ -23,19 +21,19 @@ class ProductCard extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
 
     final imageWidget = Image.asset(
-      product.assetName,
-      package: product.assetPackage,
+      product!.assetName,
+      package: product!.assetPackage,
       fit: BoxFit.cover,
     );
 
-    return ScopedModelDescendant<AppState>(
-      builder: (context, child, model) => GestureDetector(
-            onTap: () {
-              model.addProductToCart(product.id);
-              // TODO: Add Snackbar
-            },
-            child: child,
-          ),
+    return Consumer<AppState>(
+      builder: (context, appState, child) => GestureDetector(
+        onTap: () {
+          //model.addProductToCart(product!.id);
+          // TODO: Add Snackbar
+        },
+        child: child,
+      ),
       child: Stack(
         children: <Widget>[
           Column(
@@ -43,7 +41,7 @@ class ProductCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               AspectRatio(
-                aspectRatio: imageAspectRatio,
+                aspectRatio: imageAspectRatio!,
                 child: imageWidget,
               ),
               SizedBox(
@@ -54,7 +52,7 @@ class ProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      product == null ? '' : product.name,
+                      product == null ? '' : product!.name!,
                       style: theme.textTheme.button,
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,
@@ -62,7 +60,7 @@ class ProductCard extends StatelessWidget {
                     ),
                     SizedBox(height: 4.0),
                     Text(
-                      product == null ? '' : formatter.format(product.price),
+                      product == null ? '' : formatter.format(product!.price),
                       style: theme.textTheme.caption,
                     ),
                   ],
