@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '/src/models/user.dart';
-import '/src/utils/colors.dart';
+import '/src/constants/color.dart';
 import 'sign_in_screen.dart';
 
 

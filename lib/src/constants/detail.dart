@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/src/models/app_state.dart';
-import '/src/utils/colors.dart';
+import 'color.dart';
 
 List<int>? _internalList;
 _ListModel _list = _ListModel(

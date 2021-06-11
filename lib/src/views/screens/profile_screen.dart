@@ -3,14 +3,13 @@ import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/app/public.dart';
+import 'package:zando_art/src/constants/color.dart';
 import 'package:zando_art/src/models/user.dart';
-import 'package:zando_art/src/utils/colors.dart';
 
-import '../../src/screens/edit_artiste_profile_screen.dart';
-import '../../src/screens/edit_profile_screen.dart';
-import '../../src/screens/tabs/posts_tab.dart' as posts;
-import '../../src/screens/tabs/sales_tab.dart' as sales;
+import '/src/views/screens/edit_artiste_profile_screen.dart';
+import '/src/views/screens/edit_profile_screen.dart';
+import '/src/views/tabs/posts_tab.dart' as posts;
+import '/src/views/tabs/sales_tab.dart' as sales;
 
 class ProfileScreen extends StatefulWidget {
   final User? user;
@@ -86,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     height: _height / 25.0,
                   ),
                   Text(
-                    '${publicUser.firstname} ${publicUser.lastname}',
+                    'publicUser.firstname publicUser.lastname',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: _width / 15,
@@ -99,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       right: _width / 8,
                     ),
                     child: new Text(
-                      '${publicUser.email} ',
+                      'publicUser.email ',
                       style: new TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: _width / 25,
@@ -190,19 +189,19 @@ class _ProfileScreenState extends State<ProfileScreen>
                   // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Text(
-                      "${publicUser.firstname} ${publicUser.lastname}",
+                      "publicUser.firstname publicUser.lastname",
                       style: TextStyle(
                           fontSize: 40.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
-                    Text("Ville : ${publicUser.city}",
+                    Text("Ville : publicUser.city",
                         style: TextStyle(
                             fontSize: 23.0,
                             fontWeight: FontWeight.normal,
                             color: Colors.white)),
                     Text(
-                      "${publicUser.about}",
+                      "publicUser.about",
                       style: TextStyle(
                         fontSize: 20.0,
                         color: Colors.white,

@@ -1,36 +1,31 @@
-import 'package:zando_art/src/app/public.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:zando_art/src/utils/colors.dart';
+import 'package:zando_art/src/constants/color.dart';
 
-class EditArtisteProfileScreen extends StatefulWidget {
+class EditProfileScreen extends StatefulWidget {
   final String? email;
 
-  EditArtisteProfileScreen({this.email});
+  EditProfileScreen({this.email});
 
   @override
-  _EditArtisteProfileScreenState createState() =>
-      _EditArtisteProfileScreenState();
+  _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
-class _EditArtisteProfileScreenState extends State<EditArtisteProfileScreen> {
-  TextEditingController? email;
-  TextEditingController? shopName;
-  TextEditingController? description;
-  TextEditingController? phone;
-  TextEditingController? category;
-  TextEditingController? fullAddress;
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  TextEditingController? idText;
+  TextEditingController? firstname;
+  TextEditingController? lastname;
+  TextEditingController? city;
+  TextEditingController? about;
 
   final _borderRadius = BorderRadius.all(Radius.circular(8.0));
 
   @override
   void initState() {
-    // email = TextEditingController(text: '$publicId');
-    // shopName = TextEditingController(text: publicFirstname);
-    // description = TextEditingController(text: publicLastname);
-    // phone = TextEditingController(text: publicCity);
-    // category = TextEditingController(text: publicAbout);
-    // fullAddress = TextEditingController(text: publicAbout);
+    // idText = TextEditingController(text: '$publicId');
+    // firstname = TextEditingController(text: publicFirstname);
+    // lastname = TextEditingController(text: publicLastname);
+    // city = TextEditingController(text: publicCity);
+    // about = TextEditingController(text: publicAbout);
     super.initState();
   }
 
@@ -39,7 +34,6 @@ class _EditArtisteProfileScreenState extends State<EditArtisteProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Modifier le profile"),
-        backgroundColor: ZandoMainColor,
       ),
       body: ListView(
         children: <Widget>[
@@ -47,15 +41,15 @@ class _EditArtisteProfileScreenState extends State<EditArtisteProfileScreen> {
             padding: EdgeInsets.all(14.0),
             child: Column(
               children: <Widget>[
-                _buildTextField("Identifiant", email!, false, false),
+                _buildTextField("Identifiant", idText!, false, false, 1),
                 SizedBox(height: 9.0),
-                _buildTextField("Nom", shopName!, false, true),
+                _buildTextField("Nom", firstname!, false, true, 1),
                 SizedBox(height: 9.0),
-                _buildTextField("Postnom", description!, false, true),
+                _buildTextField("Postnom", lastname!, false, true, 1),
                 SizedBox(height: 9.0),
-                _buildTextField("Ville", phone!, false, true),
+                _buildTextField("Ville", city!, false, true, 1),
                 SizedBox(height: 9.0),
-                _buildTextField("A propos de vous", category!, false, true),
+                _buildTextField("A propos de vous", about!, false, true, 2),
                 SizedBox(height: 9.0),
                 _buildButtonBar(),
               ],
@@ -66,15 +60,12 @@ class _EditArtisteProfileScreenState extends State<EditArtisteProfileScreen> {
     );
   }
 
-  Widget _buildTextField(
-    String label,
-    TextEditingController controller,
-    bool isPassword,
-    bool enable,
-  ) {
+  Widget _buildTextField(String label, TextEditingController controller,
+      bool isPassword, bool enable, int max) {
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: ZandoMainColor),
       child: TextField(
+        maxLines: max,
         enabled: enable,
         controller: controller,
         decoration:
@@ -86,11 +77,11 @@ class _EditArtisteProfileScreenState extends State<EditArtisteProfileScreen> {
   }
 
   _clearField() {
-    shopName!.clear();
-    description!.clear();
-    phone!.clear();
-    category!.clear();
-    email!.clear();
+    firstname!.clear();
+    lastname!.clear();
+    city!.clear();
+    about!.clear();
+    idText!.clear();
   }
 
   Widget _buildButtonBar() {
@@ -128,18 +119,18 @@ class _EditArtisteProfileScreenState extends State<EditArtisteProfileScreen> {
   }
 
   _editProfile() {
-    String url = "http://192.168.43.30:80/zando_art_web/edit_user.php";
+    var url = "http://192.168.43.30:80/zando_art_web/edit_user.php";
 
-    // http.post(Uri(), body: {
-    //   "id_user" : email.text,
-    //   "firstname": shopName.text,
-    //   "lastname": description.text,
+    // http.post(url, body: {
+    //   "id_user" : idText.text,
+    //   "firstname": firstname.text,
+    //   "lastname": lastname.text,
 
     //   /// TODO: Testing if passwords are equals
     //   // "password" : _firstPasswordController.text,
 
-    //   "city" : phone.text,
-    //   "about" : category.text,
+    //   "city" : city.text,
+    //   "about" : about.text,
     // });
   }
 }

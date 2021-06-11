@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/app/detail.dart';
-import 'package:zando_art/src/app/public.dart';
-import 'package:zando_art/src/screens/orders_screen.dart';
-import 'package:zando_art/src/screens/post_screen.dart';
-import 'package:zando_art/src/utils/colors.dart';
+import '/src/constants/detail.dart';
+import '/src/views/screens/orders_screen.dart';
+import '/src/views/screens/post_screen.dart';
+import '/src/constants/color.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -62,8 +61,8 @@ class _HomeTabState extends State<HomeTab> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => PostScreen(
-                          user: publicUser,
-                        ),
+                            //user: publicUser,
+                            ),
                       ),
                     );
                   },
@@ -77,8 +76,8 @@ class _HomeTabState extends State<HomeTab> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => OrdersScreen(
-                          user: publicUser,
-                        ),
+                            //user: publicUser,
+                            ),
                       ),
                     );
                   },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '/src/models/user.dart';
-import '/src/utils/colors.dart';
+import '/src/constants/color.dart';
 
 class PostScreen extends StatefulWidget {
 
