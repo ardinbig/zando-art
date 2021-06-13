@@ -1,4 +1,4 @@
-import 'screens/screens.dart';
+import 'views/screens/screens.dart';
 
 class Route {
   Route._();

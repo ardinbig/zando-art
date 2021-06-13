@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/utils/colors.dart';
+import 'package:zando_art/src/constants/color.dart';
 
 class SignInScreen extends StatefulWidget {
   @override

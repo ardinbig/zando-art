@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zando_art/src/models/app_state.dart';
 import 'package:zando_art/src/models/product.dart';
-import 'package:zando_art/src/utils/colors.dart';
+import 'package:zando_art/src/constants/color.dart';
 
 const _leftColumnWidth = 60.0;
 

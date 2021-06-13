@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/utils/colors.dart';
-import '../screens/tabs/dessin_tab.dart' as dessin;
-import '../screens/tabs/painture_tab.dart' as painture;
+import 'package:zando_art/src/constants/color.dart';
+import '../tabs/dessin_tab.dart' as dessin;
+import '../tabs/painture_tab.dart' as painture;
 
 class CategoryScreen extends StatefulWidget {
   @override

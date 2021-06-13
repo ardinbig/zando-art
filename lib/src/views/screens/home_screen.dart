@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:zando_art/src/models/user.dart';
-import 'package:zando_art/src/utils/colors.dart';
-import 'package:zando_art/src/widgets/app_drawer.dart';
+import 'package:zando_art/src/constants/color.dart';
+import 'package:zando_art/src/views/widgets/app_drawer.dart';
 
-import '/src/screens/tabs/home_tab.dart' as home;
-import '/src/screens/tabs/notification_tab.dart' as notification;
-import '/src/screens/tabs/shopping_cart_tab.dart' as shopping_cart;
+import '../tabs/home_tab.dart' as home;
+import '../tabs/notification_tab.dart' as notification;
+import '../tabs/shopping_cart_tab.dart' as shopping_cart;
 
 class HomeScreen extends StatefulWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/utils/colors.dart';
+import 'package:zando_art/src/constants/color.dart';
 
 class UpgradeScreen extends StatefulWidget {
   @override
