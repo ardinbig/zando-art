@@ -1,171 +1,120 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-import '/src/models/user.dart';
-import '/src/constants/color.dart';
-import 'sign_in_screen.dart';
+import 'signup_screen.dart';
 
-
-class LoginScreen extends StatefulWidget {
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  String _message = "";
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _borderRadius = BorderRadius.all(Radius.circular(8.0));
-
-  User? user;
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          children: <Widget>[
-            _buildLogo(),
-            SizedBox(height: 60.0),
-            _buildTextField('Email', _emailController, false),
-            SizedBox(height: 9.0),
-            _buildTextField('Mot de passe', _passwordController, true),
-            SizedBox(height: 15.0),
-            _buildButtonBar(),
-            SizedBox(height: 40.0),
-            _buildSignIn(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLogo() {
-    return Column(
-      children: <Widget>[
-        const SizedBox(height: 80.0),
-        Image.asset('assets/images/logo.png'),
-        Text(
-          'Zando Art',
-          style: Theme.of(context).textTheme.headline,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildButtonBar() {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: RaisedButton(
-            color: ZandoSecondaryColor,
-            child: Text('Connexion'),
-            elevation: 5.0,
-            shape: RoundedRectangleBorder(borderRadius: _borderRadius),
-            onPressed: () {
-              _login();
-            },
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(14.0),
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(18.0),
+                child: Column(
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/logo.png'),
+                    ),
+                    Text(
+                      'Zando Art',
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                  ],
+                ),
+              ),
+              LoginForm(),
+            ],
           ),
-        )
-      ],
-    );
-  }
-
-  Widget _buildTextField(
-      String label, TextEditingController controller, bool isPassword) {
-    return Theme(
-      data: Theme.of(context).copyWith(primaryColor: ZandoMainColor),
-      child: TextFormField(
-        controller: controller,
-        decoration:
-            InputDecoration(labelText: label, border: OutlineInputBorder()),
-        obscureText: isPassword,
-        cursorColor: ZandoMainColor,
+        ),
       ),
     );
-  }
-
-  Widget _buildSignIn() => FlatButton(
-        child: Text("Créer un compte"),
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SignInScreen()));
-        },
-      );
-
-  Future<List> _login() async {
-    CircularProgressIndicator(
-      backgroundColor: Colors.brown,
-    );
-
-    // final response = await http.post("http://192.168.43.30:80/zando_art_web/login.php", body: {
-    //   "email": _emailController.text,
-    //   "password": _passwordController.text,
-    // });
-
-    final response;
-
-    var dataUser; //= json.decode(response.body);
-
-    if (dataUser.length == 0) {
-      setState(() {
-        _message = "Connexion échouée ! ";
-        // Fluttertoast.showToast(
-        //     msg: _message,
-        //     toastLength: Toast.LENGTH_SHORT,
-        //     gravity: ToastGravity.CENTER,
-        //     timeInSecForIos: 1,
-        //     backgroundColor: ZandoErrorColor,
-        //     textColor: Colors.black,
-        //     fontSize: 20.0
-        // );
-      });
-    } else {
-      setState(() {
-        // user = User();
-
-        // user.id = int.parse(dataUser[0]['id_user']);
-        // user.firstname = dataUser[0]['firstname'];
-        // user.lastname = dataUser[0]['lastname'];
-        // user.city =  dataUser[0]['city'];
-        // user.email = dataUser[0]['email'];
-        // user.avatar = dataUser[0]['avatar'];
-        // user.about = dataUser[0]['about'];
-
-        // Navigator.pushReplacement(context, MaterialPageRoute(
-        //     builder: (context) => HomeScreen(user: user,)
-        // ));
-
-        // Fluttertoast.showToast(
-        //     msg: "Bienvenue ${user.firstname}",
-        //     toastLength: Toast.LENGTH_LONG,
-        //     gravity: ToastGravity.CENTER,
-        //     timeInSecForIos: 1,
-        //     backgroundColor: ZandoSecondaryColor,
-        //     textColor: Colors.black,
-        //     fontSize: 20.0
-        // );
-      });
-    }
-
-    return dataUser;
   }
 }
 
-class PrimaryColorOverride extends StatelessWidget {
-  const PrimaryColorOverride({Key? key, this.color, this.child})
-      : super(key: key);
+class LoginForm extends StatefulWidget {
+  const LoginForm({Key? key}) : super(key: key);
 
-  final Color? color;
-  final Widget? child;
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final _formKey = GlobalKey<FormState>(debugLabel: 'login-form');
+
+  // Map<String, dynamic> _data = {'email': '', 'password': ''};
+
+  Widget _buildTextFormField({
+    required String label,
+    required void Function(String) onChanged,
+    TextInputType keyboardType = TextInputType.text,
+    bool isPassword = false,
+  }) {
+    return TextFormField(
+      obscureText: isPassword,
+      onChanged: onChanged,
+      autocorrect: false,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      child: child!,
-      data: Theme.of(context).copyWith(primaryColor: color),
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          _buildTextFormField(
+            label: 'E-mail',
+            onChanged: (value) {
+              // TODO: Submit data
+            },
+          ),
+          const SizedBox(height: 8.0),
+          _buildTextFormField(
+            label: 'Mot de passe',
+            onChanged: (value) {
+              // TODO: Submit data
+            },
+          ),
+          ElevatedButton(
+            child: const Text('Connexion'),
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+          ),
+          TextButton(
+            child: const Text('Créer un compte'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (_) {
+                    return SignUpScreen();
+                  },
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/src/route.dart' as App;
+import '/src/constants/route.dart' as App;
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
