@@ -18,9 +18,7 @@ class AppDrawer extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               backgroundImage: AssetImage("assets/images/user.jpeg"),
             ),
-            decoration: BoxDecoration(
-                //color: ZandoMainColor,
-                ),
+            decoration: BoxDecoration(),
           ),
           ListTile(
             title: Text("Accueil"),

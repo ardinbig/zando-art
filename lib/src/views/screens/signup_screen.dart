@@ -27,6 +27,8 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>(debugLabel: 'signup-form');
 
+  // TODO: Submit the form
+
   // Map<String, dynamic> _data = {
   //   'name': '',
   //   'secondName': '',

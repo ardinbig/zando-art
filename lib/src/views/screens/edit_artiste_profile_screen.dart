@@ -19,8 +19,6 @@ class _EditArtisteProfileScreenState extends State<EditArtisteProfileScreen> {
   TextEditingController? category;
   TextEditingController? fullAddress;
 
-  final _borderRadius = BorderRadius.all(Radius.circular(8.0));
-
   @override
   void initState() {
     // email = TextEditingController(text: '$publicId');
@@ -94,31 +92,17 @@ class _EditArtisteProfileScreenState extends State<EditArtisteProfileScreen> {
   Widget _buildButtonBar() {
     return ButtonBar(
       children: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('Annuler'),
-          highlightColor: ZandoSecondaryColor,
-          shape: RoundedRectangleBorder(borderRadius: _borderRadius),
           onPressed: () {
             _clearField();
           },
         ),
-        RaisedButton(
-          color: ZandoSecondaryColor,
+        ElevatedButton(
           child: Text('Modifier'),
-          elevation: 5.0,
-          shape: RoundedRectangleBorder(borderRadius: _borderRadius),
           onPressed: () {
             _editProfile();
             _clearField();
-            // Fluttertoast.showToast(
-            //     msg: "Modification réussie !",
-            //     toastLength: Toast.LENGTH_SHORT,
-            //     gravity: ToastGravity.CENTER,
-            //     timeInSecForIos: 1,
-            //     backgroundColor: ZandoSecondaryColor,
-            //     textColor: Colors.black,
-            //     fontSize: 20.0
-            // );
           },
         ),
       ],
@@ -126,14 +110,13 @@ class _EditArtisteProfileScreenState extends State<EditArtisteProfileScreen> {
   }
 
   _editProfile() {
-    String url = "http://192.168.43.30:80/zando_art_web/edit_user.php";
+    //String url = "http://192.168.43.30:80/zando_art_web/edit_user.php";
 
     // http.post(Uri(), body: {
     //   "id_user" : email.text,
     //   "firstname": shopName.text,
     //   "lastname": description.text,
 
-    //   /// TODO: Testing if passwords are equals
     //   // "password" : _firstPasswordController.text,
 
     //   "city" : phone.text,

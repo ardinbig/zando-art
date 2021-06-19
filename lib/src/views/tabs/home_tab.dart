@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
+import '/src/constants/color.dart';
 import '/src/constants/detail.dart';
 import '/src/views/screens/orders_screen.dart';
 import '/src/views/screens/post_screen.dart';
-import '/src/constants/color.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -40,9 +41,7 @@ class _HomeTabState extends State<HomeTab> {
           return snapshot.hasData
               ? ItemList(list: snapshot.data!)
               : Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: ZandoMainColor,
-                  ),
+                  child: CircularProgressIndicator.adaptive(),
                 );
         },
       );
@@ -75,9 +74,7 @@ class _HomeTabState extends State<HomeTab> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => OrdersScreen(
-                            //user: publicUser,
-                            ),
+                        builder: (context) => OrdersScreen(),
                       ),
                     );
                   },
@@ -104,7 +101,7 @@ class ItemList extends StatelessWidget {
   }
 
   _addToShoppingCart() {
-    var url = "http://192.168.43.30:80/zando_art_web/add_to_shopingcart.php";
+    //var url = "http://192.168.43.30:80/zando_art_web/add_to_shopingcart.php";
 
     /*
     http.post(url, body: {
@@ -207,9 +204,7 @@ class ItemList extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: 4,
-            ),
+            SizedBox(height: 4),
           ],
         ),
       );

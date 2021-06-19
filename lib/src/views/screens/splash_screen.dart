@@ -8,7 +8,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator.adaptive(),
       ),
     );
   }

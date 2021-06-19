@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/models/app_state.dart';
+import '/src/models/app_state.dart';
 
 class NotificationTab extends StatefulWidget {
   @override
@@ -29,18 +29,18 @@ class _NotificationTabState extends State<NotificationTab> {
     return json.decode(response.body);
   }
 
-  FutureBuilder<List> _zando_home() => FutureBuilder(
-        future: getData(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
-          return snapshot.hasData
-              ? ItemList(list: snapshot.data!)
-              : Center(
-                  child: CircularProgressIndicator(
-                  backgroundColor: Colors.brown,
-                ),);
-        },
-      );
+  // FutureBuilder<List> _zando_home() => FutureBuilder(
+  //       future: getData(),
+  //       builder: (context, snapshot) {
+  //         if (snapshot.hasError) print(snapshot.error);
+  //         return snapshot.hasData
+  //             ? ItemList(list: snapshot.data!)
+  //             : Center(
+  //                 child: CircularProgressIndicator(
+  //                 backgroundColor: Colors.brown,
+  //               ),);
+  //       },
+  //     );
 }
 
 class ItemList extends StatelessWidget {

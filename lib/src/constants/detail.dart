@@ -44,40 +44,43 @@ class _DetailState extends State<Detail> {
               ),
               Text(
                 "${widget.list![widget.index!]["name_prod"]}",
-                style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              SizedBox(
-                height: 14,
-              ),
+              const SizedBox(height: 14),
               Text(
                 "${widget.list![widget.index!]["description_prod"]}",
                 style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.normal,
-                    fontStyle: FontStyle.italic),
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.normal,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Text(
                     "Categorie : ${widget.list![widget.index!]["category"]}",
                     style: TextStyle(
-                        fontSize: 20.0, fontWeight: FontWeight.normal),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                   Text(
                     "Prix : ${widget.list![widget.index!]["price"]} \$",
                     style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: ZandoMainColor),
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: ZandoMainColor,
+                    ),
                   ),
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: 30.0),
+                padding: const EdgeInsets.only(top: 30.0),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -85,9 +88,8 @@ class _DetailState extends State<Detail> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      RaisedButton(
+                      ElevatedButton(
                         child: Text("Ajouter au pannier"),
-                        color: ZandoSecondaryColor,
                         onPressed: () {
                           _updateLists();
                         },
@@ -137,13 +139,13 @@ class _DetailState extends State<Detail> {
 }
 
 class _ListModel {
-  _ListModel(
-      {@required this.listKey,
-      @required this.removedItemBuilder,
-      required Iterable<int> initialItems})
-      : assert(listKey != null),
+  _ListModel({
+    required this.listKey,
+    required this.removedItemBuilder,
+    required Iterable<int> initialItems,
+  })  : assert(listKey != null),
         assert(removedItemBuilder != null),
-        _items = List<int>.from(initialItems ?? <int>[]);
+        _items = List<int>.from(initialItems);
 
   final GlobalKey<AnimatedListState>? listKey;
   final dynamic removedItemBuilder;
@@ -157,7 +159,10 @@ class _ListModel {
 
   void _insert(int index, int item) {
     _items.insert(index, item);
-    _animatedList!.insertItem(index, duration: Duration(milliseconds: 225));
+    _animatedList!.insertItem(
+      index,
+      duration: Duration(milliseconds: 225),
+    );
   }
 
   void remove(int product) {
@@ -169,14 +174,12 @@ class _ListModel {
 
   void _removeAt(int index) {
     final int removedItem = _items.removeAt(index);
-    if (removedItem != null) {
-      _animatedList!.removeItem(index, (
-        BuildContext context,
-        Animation<double> animation,
-      ) {
-        return removedItemBuilder(removedItem, context, animation);
-      });
-    }
+    _animatedList!.removeItem(index, (
+      BuildContext context,
+      Animation<double> animation,
+    ) {
+      return removedItemBuilder(removedItem, context, animation);
+    });
   }
 
   int get length => _items.length;
