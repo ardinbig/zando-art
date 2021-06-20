@@ -5,9 +5,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:zando_art/src/models/app_state.dart';
-import 'package:zando_art/src/models/product.dart';
-import 'package:zando_art/src/constants/color.dart';
+
+import '/src/constants/color.dart';
+import '/src/models/app_state.dart';
+import '/src/models/product.dart';
 
 const _leftColumnWidth = 60.0;
 
@@ -32,14 +33,12 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
   }
 
   Widget build(BuildContext context) {
-    final localTheme = Theme.of(context);
-
     return Scaffold(
       backgroundColor: ZandoBGColor,
       body: SafeArea(
         child: Container(
           child: Consumer<AppState>(
-            builder: (context, model, child) {
+            builder: (_, model, child) {
               return Stack(
                 children: [
                   ListView(
@@ -70,13 +69,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                     right: 16.0,
                     child: Column(
                       children: <Widget>[
-                        RaisedButton(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(7.0)),
-                          ),
-                          color: ZandoMainColor,
-                          splashColor: ZandoBGColor,
+                        ElevatedButton(
                           child: const Padding(
                             padding: EdgeInsets.symmetric(vertical: 12.0),
                             child: Text(
@@ -88,13 +81,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                             model.clearCart();
                           },
                         ),
-                        RaisedButton(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(7.0)),
-                          ),
-                          color: ZandoSecondaryColor,
-                          splashColor: ZandoBGColor,
+                        ElevatedButton(
                           child: const Padding(
                             padding: EdgeInsets.symmetric(vertical: 12.0),
                             child: Text(
@@ -104,7 +91,7 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
                           ),
                           onPressed: () {
                             // Fluttertoast.showToast(msg: '${model.totalCost}');
-                            //// TODO: Ajouter la fonction de la vente ici
+                            // TODO: Ajouter la fonction de la vente ici
                           },
                         ),
                       ],
@@ -119,34 +106,12 @@ class _ShoppingCartTabState extends State<ShoppingCartTab> {
     );
   }
 
-  /*
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _zando_home(),
-    );
-  }
-  */
-
   // Retourne les données de la base des données via une page php
   Future<List> getData() async {
     var response; // = await http.get("http://192.168.43.30:80/zando_art_web/get_data.php");
     // final response = await http.get("http://localhost/getData.php");
     return json.decode(response.body);
   }
-
-  FutureBuilder<List> _zando_home() => FutureBuilder(
-        future: getData(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
-          return snapshot.hasData
-              ? ItemList(list: snapshot.data)
-              : Center(
-                  child: CircularProgressIndicator(
-                  backgroundColor: Colors.brown,
-                ));
-        },
-      );
 }
 
 class ItemList extends StatelessWidget {
@@ -180,7 +145,7 @@ class ShoppingCartSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final largeAmountStyle = Theme.of(context).textTheme.display1;
+    final largeAmountStyle = Theme.of(context).textTheme.headline4;
     final formatter = NumberFormat.simpleCurrency(
         decimalDigits: 2, locale: Localizations.localeOf(context).toString());
 
@@ -256,7 +221,6 @@ class ShoppingCartRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final formatter = NumberFormat.simpleCurrency(
         decimalDigits: 0, locale: Localizations.localeOf(context).toString());
-    final localTheme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),

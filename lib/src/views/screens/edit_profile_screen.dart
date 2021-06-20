@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/constants/color.dart';
+
+import '/src/constants/color.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String? email;
@@ -16,8 +17,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController? lastname;
   TextEditingController? city;
   TextEditingController? about;
-
-  final _borderRadius = BorderRadius.all(Radius.circular(8.0));
 
   @override
   void initState() {
@@ -87,31 +86,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget _buildButtonBar() {
     return ButtonBar(
       children: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('Annuler'),
-          highlightColor: ZandoSecondaryColor,
-          shape: RoundedRectangleBorder(borderRadius: _borderRadius),
           onPressed: () {
             _clearField();
           },
         ),
-        RaisedButton(
-          color: ZandoSecondaryColor,
+        ElevatedButton(
           child: Text('Modifier'),
-          elevation: 5.0,
-          shape: RoundedRectangleBorder(borderRadius: _borderRadius),
           onPressed: () {
             _editProfile();
             _clearField();
-            // Fluttertoast.showToast(
-            //     msg: "Modification réussie !",
-            //     toastLength: Toast.LENGTH_SHORT,
-            //     gravity: ToastGravity.CENTER,
-            //     timeInSecForIos: 1,
-            //     backgroundColor: ZandoSecondaryColor,
-            //     textColor: Colors.black,
-            //     fontSize: 20.0
-            // );
           },
         ),
       ],
@@ -119,14 +104,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   _editProfile() {
-    var url = "http://192.168.43.30:80/zando_art_web/edit_user.php";
+    //var url = "http://192.168.43.30:80/zando_art_web/edit_user.php";
 
     // http.post(url, body: {
     //   "id_user" : idText.text,
     //   "firstname": firstname.text,
     //   "lastname": lastname.text,
 
-    //   /// TODO: Testing if passwords are equals
     //   // "password" : _firstPasswordController.text,
 
     //   "city" : city.text,

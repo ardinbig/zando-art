@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/constants/color.dart';
+
+import '/src/constants/color.dart';
 
 class UpgradeScreen extends StatefulWidget {
   @override
@@ -14,11 +15,8 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
   TextEditingController category = TextEditingController();
   TextEditingController address = TextEditingController();
 
-  final _borderRadius = BorderRadius.all(Radius.circular(8.0));
-
   @override
   void initState() {
-    //email = TextEditingController(text: publicEmail);
     super.initState();
   }
 
@@ -69,8 +67,10 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
         keyboardType: type,
         enabled: enable,
         controller: controller,
-        decoration:
-            InputDecoration(labelText: label, border: OutlineInputBorder()),
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+        ),
         obscureText: isPassword,
         cursorColor: ZandoMainColor,
       ),
@@ -89,31 +89,17 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
   Widget _buildButtonBar() {
     return ButtonBar(
       children: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('Annuler'),
-          highlightColor: ZandoSecondaryColor,
-          shape: RoundedRectangleBorder(borderRadius: _borderRadius),
           onPressed: () {
             _clearField();
           },
         ),
-        RaisedButton(
-          color: ZandoSecondaryColor,
+        ElevatedButton(
           child: Text('Promouvoir'),
-          elevation: 5.0,
-          shape: RoundedRectangleBorder(borderRadius: _borderRadius),
           onPressed: () {
             _upgradeAccount();
             _clearField();
-            // Fluttertoast.showToast(
-            //     msg: "Création de l'atelier réussi !",
-            //     toastLength: Toast.LENGTH_SHORT,
-            //     gravity: ToastGravity.CENTER,
-            //     timeInSecForIos: 1,
-            //     backgroundColor: ZandoSecondaryColor,
-            //     textColor: Colors.black,
-            //     fontSize: 20.0
-            // );
           },
         ),
       ],
@@ -121,7 +107,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
   }
 
   _upgradeAccount() {
-    var url = "http://192.168.43.30:80/zando_art_web/upgrade_account.php";
+    //var url = "http://192.168.43.30:80/zando_art_web/upgrade_account.php";
 
     // http.post(url, body: {
     //   "email_artist": email.text,

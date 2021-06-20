@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:zando_art/src/models/user.dart';
-import 'package:zando_art/src/constants/color.dart';
-import 'package:zando_art/src/views/widgets/app_drawer.dart';
 
+import '/src/constants/color.dart';
+import '/src/models/user.dart';
+import '/src/views/widgets/app_drawer.dart';
 import '../tabs/home_tab.dart' as home;
 import '../tabs/notification_tab.dart' as notification;
 import '../tabs/shopping_cart_tab.dart' as shopping_cart;
@@ -20,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   User? user;
 
-  File? _image;
+  // File? _image;
 
   //_HomeScreenState({required this.user});
 
@@ -62,14 +60,16 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  TabBarView _buildTabBarView() => TabBarView(
-        controller: controller,
-        children: <Widget>[
-          home.HomeTab(),
-          shopping_cart.ShoppingCartTab(),
-          notification.NotificationTab(),
-        ],
-      );
+  TabBarView _buildTabBarView() {
+    return TabBarView(
+      controller: controller,
+      children: <Widget>[
+        home.HomeTab(),
+        shopping_cart.ShoppingCartTab(),
+        notification.NotificationTab(),
+      ],
+    );
+  }
 
   Material _buildTabs() {
     return Material(

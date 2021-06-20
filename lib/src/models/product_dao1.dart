@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:flutter/foundation.dart' as found;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import 'product.dart';
 
@@ -25,7 +22,9 @@ class _ProductDAOState extends State<ProductDAO> {
 
         return snapshot.hasData
             ? Products(list: snapshot.data!)
-            : Center(child: CircularProgressIndicator());
+            : Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
       },
     );
   }
@@ -44,21 +43,21 @@ class _ProductDAOState extends State<ProductDAO> {
   }
 
   // A function that converts a response body into a List<Photo>
-  static List<Product> parseProducts(String responseBody) {
-    final parsed = json.decode(myResponseBody!).cast<Map<String, dynamic>>();
+  // static List<Product> parseProducts(String responseBody) {
+  //   final parsed = json.decode(myResponseBody!).cast<Map<String, dynamic>>();
 
-    return parsed.map<Product>((json) => Product.fromJson(json)).toList();
-  }
+  //   return parsed.map<Product>((json) => Product.fromJson(json)).toList();
+  // }
 
-  static List<Product> loadProducts(Categories category) {
-    var allProducts = parseProducts(myResponseBody!);
+  // static List<Product> loadProducts(Categories category) {
+  //   var allProducts = parseProducts(myResponseBody!);
 
-    if (category == Categories.Accueil) {
-      return allProducts;
-    } else {
-      return allProducts.where((Product p) => p.category == category).toList();
-    }
-  }
+  //   if (category == Categories.Accueil) {
+  //     return allProducts;
+  //   } else {
+  //     return allProducts.where((Product p) => p.category == category).toList();
+  //   }
+  // }
 }
 
 /*
@@ -89,12 +88,6 @@ class ProductDA extends StatefulWidget {
     } else {
       return allProducts.where((Product p) => p.category == category).toList();
     }
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return null;
   }
 }
 

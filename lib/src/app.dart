@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'route.dart' as app;
-import 'theme.dart';
+import 'constants/route.dart' as app;
+import 'constants/theme.dart';
 
 class ZandoArtApp extends StatelessWidget {
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/src/route.dart' as App;
+import '/src/constants/route.dart' as App;
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -18,9 +18,7 @@ class AppDrawer extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               backgroundImage: AssetImage("assets/images/user.jpeg"),
             ),
-            decoration: BoxDecoration(
-                //color: ZandoMainColor,
-                ),
+            decoration: BoxDecoration(),
           ),
           ListTile(
             title: Text("Accueil"),

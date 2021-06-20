@@ -1,8 +1,6 @@
-import 'views/screens/screens.dart';
+import '../views/screens/screens.dart';
 
 class Route {
-  Route._();
-
   static const String login = '/';
   static const String category = '/category';
   static const String profile = '/profile';
