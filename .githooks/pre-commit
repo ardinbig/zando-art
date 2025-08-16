@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+printf "\e[33;1m%s\e[0m\n" 'Pre-Commit'
+
+# Undo the stash of the files
+pop_stash_files () {
+    if [ -n "$hasChanges" ]; then
+        printf "\e[33;1m%s\e[0m\n" '=== Applying git stash changes ==='
+        git stash pop
+    fi
+}
+
+# Stash unstaged files
+if ! git diff --quiet; then
+    hasChanges=1
+    printf "\e[33;1m%s\e[0m\n" 'Stashing unstaged changes'
+    git stash push --keep-index
+else
+    hasChanges=
+fi
+
+# Get staged Dart files
+staged_dart_files=$(git diff --cached --name-only -- '*.dart')
+
+# Flutter formatter
+if [ -n "$staged_dart_files" ]; then
+    printf "\e[33;1m%s\e[0m\n" '=== Running Flutter Formatter ==='
+    dart format $staged_dart_files
+
+    if ! git diff --quiet; then
+        git add $staged_dart_files
+        printf "\e[33;1m%s\e[0m\n" 'Formatted files added to git stage'
+    fi
+    printf "\e[33;1m%s\e[0m\n" 'Finished running Flutter Formatter'
+fi
+
+# Flutter Analyzer
+if [ -n "$staged_dart_files" ]; then
+    printf "\e[33;1m%s\e[0m\n" '=== Running Flutter analyzer ==='
+    flutter analyze $staged_dart_files
+    if [ $? -ne 0 ]; then
+        printf "\e[31;1m%s\e[0m\n" '=== Flutter analyzer error ==='
+        pop_stash_files
+        exit 1
+    fi
+    printf "\e[33;1m%s\e[0m\n" 'Finished running Flutter analyzer'
+fi
+
+pop_stash_files

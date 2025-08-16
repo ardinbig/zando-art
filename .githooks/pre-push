@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# Check for uncommitted changes
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  printf "\e[31;1m%s\e[0m\n" 'This script needs to run against committed code only. Please commit or stash your changes.'
+  exit 1
+fi
+
+# Get the files changed in the push
+changed_files=""
+while read local_ref local_sha remote_ref remote_sha; do
+  if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+    continue
+  fi
+  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+    range="$local_sha"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+  files=$(git diff --name-only $range)
+  changed_files="$changed_files $files"
+done
+
+# Filter Dart files
+dart_files=$(echo "$changed_files" | grep '\.dart$' | tr '\n' ' ')
+
+if [ -n "$dart_files" ]; then
+  printf "\e[33;1m%s\e[0m\n" 'Running the Flutter analyzer on changed files'
+  flutter analyze $dart_files
+  if [ $? -ne 0 ]; then
+    printf "\e[31;1m%s\e[0m\n" 'Flutter analyzer error'
+    exit 1
+  fi
+  printf "\e[33;1m%s\e[0m\n" 'Finished running the Flutter analyzer'
+else
+  printf "\e[33;1m%s\e[0m\n" 'No Dart files changed, skipping analyzer'
+fi
